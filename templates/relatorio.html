@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Relatórios{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Relatórios</h2>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5>Total de Medicamentos Cadastrados:</h5>
+            <p class="fs-4 text-primary">{{ total }}</p>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5>Média de Preço dos Medicamentos:</h5>
+            <p class="fs-4 text-success">R$ {{ media }}</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5>Medicamentos com Estoque Crítico (≤ 5):</h5>
+            {% if criticos %}
+            <ul class="list-group list-group-flush">
+                {% for item in criticos %}
+                <li class="list-group-item d-flex justify-content-between">
+                    {{ item.nome_medicamento }} - Estoque Mínimo: {{ item.estoque_minimo }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p class="text-muted">Nenhum medicamento em estado crítico.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

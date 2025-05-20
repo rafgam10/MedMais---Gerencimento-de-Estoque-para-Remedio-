@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Cadastro de Medicamentos{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Cadastro de Medicamentos</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="/cadastrar">
+                        <div class="mb-3">
+                            <label for="nome" class="form-label">Nome do Medicamento:</label>
+                            <input type="text" class="form-control" id="nome" name="nome_medicamento" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="marca" class="form-label">Marca:</label>
+                            <input type="text" class="form-control" id="marca" name="marca_medicamento" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="preco" class="form-label">Preço (R$):</label>
+                            <input type="number" class="form-control" id="preco" name="preco_medicamento" step="0.01" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="estoque" class="form-label">Estoque Mínimo:</label>
+                            <input type="number" class="form-control" id="estoque" name="estoque_minimo" required>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">Cadastrar Medicamento</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
