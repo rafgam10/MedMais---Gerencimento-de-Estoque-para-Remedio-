@@ -3,46 +3,58 @@
 {% block title %}Lista de Medicamentos{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">Lista de Medicamentos</h2>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">
+                <i class="bi bi-capsule-pill me-2"></i> Lista de Medicamentos
+            </h4>
+            <a href="/cadastroMedicamento" class="btn btn-light btn-sm">
+                <i class="bi bi-plus-circle me-1"></i> Novo Medicamento
+            </a>
+        </div>
 
-<a href="/cadastroMedicamento" class="btn btn-success mb-3">
-    <i class="bi bi-plus-circle"></i> Cadastrar Novo Medicamento
-</a>
-
-{% if medicamentos %}
-<table class="table table-bordered table-hover align-middle">
-    <thead class="table-primary">
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Marca</th>
-            <th>Preço (R$)</th>
-            <th>Estoque Mínimo</th>
-            <th>Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for med in medicamentos %}
-        <tr>
-            <td>{{ med.medicamento_id_pk }}</td>
-            <td>{{ med.nome_medicamento }}</td>
-            <td>{{ med.marca_medicamento }}</td>
-            <td>{{ "%.2f"|format(med.preco_medicamento) }}</td>
-            <td>{{ med.estoque_minimo }}</td>
-            <td>
-                <button onclick="editarMedicamento({{ med.medicamento_id_pk }}, '{{ med.nome_medicamento }}')" class="btn btn-sm btn-warning">
-                    <i class="bi bi-pencil-square"></i> Editar
-                </button>
-                <a href="/deletar/medicamento/{{ med.medicamento_id_pk }}" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja excluir este medicamento?');">
-                    <i class="bi bi-trash"></i> Excluir
-                </a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{% else %}
-    <div class="alert alert-info">Nenhum medicamento cadastrado ainda.</div>
-{% endif %}
-
+        <div class="card-body">
+            {% if medicamentos %}
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-primary text-center">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Marca</th>
+                            <th>Preço (R$)</th>
+                            <th>Estoque Mínimo</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for med in medicamentos %}
+                        <tr>
+                            <td class="text-center">{{ med.medicamento_id_pk }}</td>
+                            <td>{{ med.nome_medicamento }}</td>
+                            <td>{{ med.marca_medicamento }}</td>
+                            <td class="text-end">R$ {{ "%.2f"|format(med.preco_medicamento) }}</td>
+                            <td class="text-center">{{ med.estoque_minimo }}</td>
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center gap-2">
+                                    <button onclick="editarMedicamento({{ med.medicamento_id_pk }}, '{{ med.nome_medicamento }}')" class="btn btn-sm btn-warning">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
+                                    <a href="/deletar/medicamento/{{ med.medicamento_id_pk }}" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja excluir este medicamento?');">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+                <div class="alert alert-info text-center mb-0">Nenhum medicamento cadastrado ainda.</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}

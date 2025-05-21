@@ -13,18 +13,38 @@
                 <div class="card-body">
                     <form method="POST" action="/cadastrarLote">
                         <div class="mb-3">
-                            <label for="nome" class="form-label">Data de Entrada do Lote:</label>
-                            <input type="date" class="form-control" id="nome" name="data_entrada_lote" required>
+                            <label for="data_entrada" class="form-label">Data de Entrada do Lote:</label>
+                            <input type="date" class="form-control" id="data_entrada" name="data_entrada_lote" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="marca" class="form-label">Quantidade:</label>
-                            <input type="text" class="form-control" id="marca" name="quantidade" required>
+                            <label for="quantidade" class="form-label">Quantidade:</label>
+                            <input type="number" class="form-control" id="quantidade" name="quantidade" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="preco" class="form-label">Data Validade:</label>
-                            <input type="date" class="form-control" id="preco" name="data_validade" step="0.01" required>
+                            <label for="data_validade" class="form-label">Data de Validade:</label>
+                            <input type="date" class="form-control" id="data_validade" name="data_validade" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="medicamento" class="form-label">Medicamento:</label>
+                            <select class="form-select" id="medicamento" name="medicamento_id_pk" required>
+                                <option value="" disabled selected>Selecione um medicamento</option>
+                                {% for medicamento in medicamentos %}
+                                    <option value="{{ medicamento.medicamento_id_pk }}">{{ medicamento.nome_medicamento }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="fornecedor" class="form-label">Fornecedor:</label>
+                            <select class="form-select" id="fornecedor" name="id_fornecedor_pk" required>
+                                <option value="" disabled selected>Selecione um fornecedor</option>
+                                {% for fornecedor in fornecedores %}
+                                    <option value="{{ fornecedor.id_fornecedor_pk }}">{{ fornecedor.nome_fornecedor }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
 
                         <div class="d-grid">

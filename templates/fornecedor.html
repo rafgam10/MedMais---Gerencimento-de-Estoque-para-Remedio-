@@ -1,45 +1,58 @@
 {% extends "base.html" %}
 
-{% block title %}Lista de Fornecedor{% endblock %}
+{% block title %}Lista de Fornecedores{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">Lista de Fornecedor</h2>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">
+                <i class="bi bi-truck me-2"></i> Lista de Fornecedores
+            </h4>
+            <a href="/cadastroFornecedor" class="btn btn-light btn-sm">
+                <i class="bi bi-plus-circle me-1"></i> Novo Fornecedor
+            </a>
+        </div>
 
-<a href="/cadastroFornecedor" class="btn btn-success mb-3">
-    <i class="bi bi-plus-circle"></i> Cadastrar Novo Fornecedor
-</a>
-
-{% if fornecedor %}
-<table class="table table-bordered table-hover align-middle">
-    <thead class="table-primary">
-        <tr>
-            <th>ID</th>
-            <th>NOME FORNECEDOR</th>
-            <th>CONTATO FORNECEDOR</th>
-            <th>CNPJ FORNECEDOR</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for for in fornecedor %}
-        <tr>
-            <td>{{ for.id_fornecedor_pk }}</td>
-            <td>{{ for.nome_fornecedor }}</td>
-            <td>{{ for.contato_fornecedor }}</td>
-            <td>{{ for.cnpj_fornecedor }}</td>
-            <td>
-                <button onclick="editarFornecedor({{ for.id_fornecedor_pk }}, '{{ fornecedor.nome_fornecedor }}')" class="btn btn-sm btn-warning">
-                    <i class="bi bi-pencil-square"></i> Editar
-                </button>
-                <a href="/deletar/fornecedor/{{ for.id_fornecedor_pk }}" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja excluir este fornecedor?');">
-                    <i class="bi bi-trash"></i> Excluir
-                </a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{% else %}
-    <div class="alert alert-info">Nenhum fornecedor cadastrado ainda.</div>
-{% endif %}
-
+        <div class="card-body">
+            {% if fornecedor %}
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-primary text-center">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Contato</th>
+                            <th>CNPJ</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for for in fornecedor %}
+                        <tr>
+                            <td class="text-center">{{ for.id_fornecedor_pk }}</td>
+                            <td>{{ for.nome_fornecedor }}</td>
+                            <td>{{ for.contato_fornecedor }}</td>
+                            <td>{{ for.cnpj_fornecedor }}</td>
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center gap-2">
+                                    <button onclick="editarFornecedor({{ for.id_fornecedor_pk }}, '{{ for.nome_fornecedor }}')" class="btn btn-sm btn-warning">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
+                                    <a href="/deletar/fornecedor/{{ for.id_fornecedor_pk }}" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja excluir este fornecedor?');">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+                <div class="alert alert-info text-center mb-0">Nenhum fornecedor cadastrado ainda.</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}
