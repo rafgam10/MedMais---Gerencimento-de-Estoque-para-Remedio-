@@ -231,7 +231,9 @@ def deletar_lote(id):
 
 
 if __name__ == "__main__":
-        from os import environ
-        port = int(environ.get('PORT', 5000))  # aqui é a PORT da aplicação
-        app.run(debug=True, host='0.0.0.0', port=port)
-
+    from os import environ
+    app.run(
+        host="0.0.0.0",
+        port=int(environ.get("PORT", 5000)),
+        debug=True
+    )
