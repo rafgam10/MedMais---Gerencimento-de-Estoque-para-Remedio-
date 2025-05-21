@@ -1,5 +1,4 @@
 
-```markdown
 # 💊 MedMais – Sistema de Gerenciamento de Estoque de Medicamentos
 
 Sistema web completo para controle de medicamentos, fornecedores e lotes, desenvolvido com **Flask (Python)** e **MySQL**. Ideal para farmácias, clínicas ou hospitais que desejam organizar e acompanhar entradas, saídas e validade de produtos farmacêuticos.
@@ -128,5 +127,5 @@ Este projeto está licenciado sob a **MIT License** – veja o arquivo [LICENSE]
 ## 👨‍💻 Autor
 
 Desenvolvido por **[Rafael Timóteo]**  
-```
+
 
