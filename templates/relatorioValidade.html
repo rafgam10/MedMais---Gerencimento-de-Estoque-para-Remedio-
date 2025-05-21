@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Relatório de Validade dos Lotes{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">📋 Relatório de Validade dos Lotes</h2>
+        <span class="badge bg-primary fs-6 px-3 py-2">Atualizado: {{ data_atual.strftime('%d/%m/%Y') }}</span>
+    </div>
+
+    {% if lote %}
+    <div class="table-responsive shadow rounded">
+        <table class="table table-bordered table-hover align-middle mb-0">
+            <thead class="table-light text-center">
+                <tr>
+                    <th>ID</th>
+                    <th>💊 Medicamento</th>
+                    <th>📦 Quantidade</th>
+                    <th>📥 Entrada</th>
+                    <th>⏳ Validade</th>
+                    <th>🔔 Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lot in lote %}
+                    <tr class="{{ lot.status_cor }}">
+                        <td class="fw-semibold">{{ lot.id }}</td>
+                        <td class="fw-semibold">{{ lot.nome_medicamento }}</td>
+                        <td class="text-center">{{ lot.quantidade }}</td>
+                        <td class="text-center">
+                            {{ lot.data_entrada_lote if lot.data_entrada_lote else '-' }}
+                        </td>
+                        <td class="text-center">
+                            {{ lot.data_validade }}
+                        </td>
+                        <td class="text-center">
+                            {% if lot.status_cor == 'table-danger' %}
+                                <span class="badge bg-danger"><i class="bi bi-exclamation-octagon-fill me-1"></i>Vencido</span>
+                            {% elif lot.status_cor == 'table-warning' %}
+                                <span class="badge bg-warning text-dark"><i class="bi bi-exclamation-triangle-fill me-1"></i>Próximo do vencimento</span>
+                            {% else %}
+                                <span class="badge bg-success"><i class="bi bi-check-circle-fill me-1"></i>Dentro do prazo</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <div class="alert alert-info mt-4">
+            <i class="bi bi-info-circle-fill me-2"></i>Nenhum lote cadastrado ainda.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

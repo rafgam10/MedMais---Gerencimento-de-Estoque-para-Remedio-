@@ -6,34 +6,41 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
-            <div class="card shadow-lg border-0">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">Cadastro de Medicamentos</h4>
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="bi bi-capsule-pill me-2"></i> Cadastro de Medicamentos
+                    </h5>
+                    <a href="/medicamentos" class="btn btn-light btn-sm">
+                        <i class="bi bi-arrow-left"></i> Voltar
+                    </a>
                 </div>
                 <div class="card-body">
                     <form method="POST" action="/cadastrarMedicamento">
                         <div class="mb-3">
-                            <label for="nome" class="form-label">Nome do Medicamento:</label>
+                            <label for="nome" class="form-label">Nome do Medicamento</label>
                             <input type="text" class="form-control" id="nome" name="nome_medicamento" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="marca" class="form-label">Marca:</label>
+                            <label for="marca" class="form-label">Marca</label>
                             <input type="text" class="form-control" id="marca" name="marca_medicamento" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="preco" class="form-label">Preço (R$):</label>
-                            <input type="number" class="form-control" id="preco" name="preco_medicamento" step="0.01" required>
+                            <label for="preco" class="form-label">Preço (R$)</label>
+                            <input type="number" class="form-control" id="preco" name="preco_medicamento" step="0.01" min="0" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="estoque" class="form-label">Estoque Mínimo:</label>
-                            <input type="number" class="form-control" id="estoque" name="estoque_minimo" required>
+                            <label for="estoque" class="form-label">Estoque Mínimo</label>
+                            <input type="number" class="form-control" id="estoque" name="estoque_minimo" min="0" required>
                         </div>
 
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-success">Cadastrar Medicamento</button>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-check-circle me-1"></i> Cadastrar Medicamento
+                            </button>
                         </div>
                     </form>
                 </div>

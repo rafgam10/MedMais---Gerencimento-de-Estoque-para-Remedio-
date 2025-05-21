@@ -6,29 +6,34 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
-            <div class="card shadow-lg border-0">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">Cadastro de Lote</h4>
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="bi bi-box-seam me-2"></i> Cadastro de Lote
+                    </h5>
+                    <a href="/lote" class="btn btn-light btn-sm">
+                        <i class="bi bi-arrow-left"></i> Voltar
+                    </a>
                 </div>
                 <div class="card-body">
                     <form method="POST" action="/cadastrarLote">
                         <div class="mb-3">
-                            <label for="data_entrada" class="form-label">Data de Entrada do Lote:</label>
+                            <label for="data_entrada" class="form-label">Data de Entrada do Lote</label>
                             <input type="date" class="form-control" id="data_entrada" name="data_entrada_lote" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="quantidade" class="form-label">Quantidade:</label>
-                            <input type="number" class="form-control" id="quantidade" name="quantidade" required>
+                            <label for="quantidade" class="form-label">Quantidade</label>
+                            <input type="number" class="form-control" id="quantidade" name="quantidade" min="1" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="data_validade" class="form-label">Data de Validade:</label>
+                            <label for="data_validade" class="form-label">Data de Validade</label>
                             <input type="date" class="form-control" id="data_validade" name="data_validade" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="medicamento" class="form-label">Medicamento:</label>
+                            <label for="medicamento" class="form-label">Medicamento</label>
                             <select class="form-select" id="medicamento" name="medicamento_id_pk" required>
                                 <option value="" disabled selected>Selecione um medicamento</option>
                                 {% for medicamento in medicamentos %}
@@ -38,7 +43,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="fornecedor" class="form-label">Fornecedor:</label>
+                            <label for="fornecedor" class="form-label">Fornecedor</label>
                             <select class="form-select" id="fornecedor" name="id_fornecedor_pk" required>
                                 <option value="" disabled selected>Selecione um fornecedor</option>
                                 {% for fornecedor in fornecedores %}
@@ -48,7 +53,9 @@
                         </div>
 
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-success">Cadastrar Lote</button>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-check-circle me-1"></i> Cadastrar Lote
+                            </button>
                         </div>
                     </form>
                 </div>
