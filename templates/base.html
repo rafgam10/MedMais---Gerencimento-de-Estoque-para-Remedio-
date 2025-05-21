@@ -25,12 +25,29 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/">Início</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/medicamentos">Medicamentos</a>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Estoque
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/medicamentos">Medicamentos</a></li>
+                            <li><a class="dropdown-item" href="/fornecedor">Fornecedores</a></li>
+                            <li><a class="dropdown-item" href="/lote">Lotes</a></li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/cadastro">Cadastro</a>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Cadastros
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/cadastroMedicamento">Medicamento</a></li>
+                            <li><a class="dropdown-item" href="/cadastroFornecedor">Fornecedor</a></li>
+                            <li><a class="dropdown-item" href="/cadastroLote">Lote</a></li>
+                        </ul>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="/relatorios">Relatórios</a>
                     </li>
@@ -55,5 +72,75 @@
 
     <!-- Scripts do Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+    <!-- Código JS-->
+
+    <script>
+        function editarMedicamento(id, nomeAtual) {
+            const novoNome = prompt("Editar nome do medicamento:", nomeAtual);
+            if (novoNome && novoNome !== nomeAtual) {
+                fetch(`/editar/medicamento/${id}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ novo_nome: novoNome })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert("Medicamento atualizado com sucesso!");
+                        location.reload();
+                    } else {
+                        alert("Erro ao atualizar medicamento.");
+                    }
+                });
+            }
+        }
+
+        function editarFornecedor(id, nomeAtual) {
+            const novoNome = prompt("Editar nome do fornecedor:", nomeAtual);
+            if (novoNome && novoNome !== nomeAtual) {
+                fetch(`/editar/fornecedor/${id}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ novo_nome: novoNome })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert("Fornecedor atualizado com sucesso!");
+                        location.reload();
+                    } else {
+                        alert("Erro ao atualizar fornecedor.");
+                    }
+                });
+            }
+        }
+
+        function editarLote(id, quantidadeAtual) {
+            const novaQuantidade = prompt("Editar quantidade do lote:", quantidadeAtual);
+            if (novaQuantidade && novaQuantidade !== quantidadeAtual) {
+                fetch(`/editar/lote/${id}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ nova_quantidade: novaQuantidade })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert("Lote atualizado com sucesso!");
+                        location.reload();
+                    } else {
+                        alert("Erro ao atualizar lote.");
+                    }
+                });
+            }
+        }
+
+        </script>
+
+
 </body>
 </html>

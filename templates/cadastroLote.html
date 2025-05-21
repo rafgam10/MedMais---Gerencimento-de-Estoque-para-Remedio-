@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Cadastro de Lote{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Cadastro de Lote</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="/cadastrarLote">
+                        <div class="mb-3">
+                            <label for="nome" class="form-label">Data de Entrada do Lote:</label>
+                            <input type="date" class="form-control" id="nome" name="data_entrada_lote" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="marca" class="form-label">Quantidade:</label>
+                            <input type="text" class="form-control" id="marca" name="quantidade" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="preco" class="form-label">Data Validade:</label>
+                            <input type="date" class="form-control" id="preco" name="data_validade" step="0.01" required>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">Cadastrar Lote</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

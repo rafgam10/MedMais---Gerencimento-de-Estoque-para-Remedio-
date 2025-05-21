@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Lotes{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Lista de Lotes</h2>
+
+<a href="/cadastroLote" class="btn btn-success mb-3">
+    <i class="bi bi-plus-circle"></i> Cadastrar Novo Lote
+</a>
+
+{% if lote %}
+<table class="table table-bordered table-hover align-middle">
+    <thead class="table-primary">
+        <tr>
+            <th>ID</th>
+            <th>DATA DE ENTRADA DO LOTE</th>
+            <th>QUANTIDADE</th>
+            <th>DATA DE VALIDADE</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for lot in lote %}
+        <tr>
+            <td>{{ lot.id_lote_pk }}</td>
+            <td>{{ lot.data_entrada_lote }}</td>
+            <td>{{ lot.quantidade }}</td>
+            <td>{{ lot.data_validade }}</td>
+            <td>
+                <button onclick="editarLote({{ lot.id_lote_pk }}, '{{ lote.quantidade }}')" class="btn btn-sm btn-warning">
+                    <i class="bi bi-pencil-square"></i> Editar
+                </button>
+                <a href="/deletar/lote/{{ lot.id_lote_pk }}" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja excluir este lote?');">
+                    <i class="bi bi-trash"></i> Excluir
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <div class="alert alert-info">Nenhum lote cadastrado ainda.</div>
+{% endif %}
+
+{% endblock %}
