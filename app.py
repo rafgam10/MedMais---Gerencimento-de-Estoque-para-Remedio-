@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from flask import Flask, render_template, redirect, url_for, request, jsonify
 from db_config import conectar_banco  # certifique-se que está importando corretamente
 
@@ -36,10 +37,24 @@ def listar_fornecedor():
 def listar_lote():
     conexao = conectar_banco()
     cursor = conexao.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM Lote")
+
+    cursor.execute("""
+        SELECT 
+            L.id_lote_pk,
+            L.data_entrada_lote,
+            L.quantidade,
+            L.data_validade,
+            M.nome_medicamento,
+            F.nome_fornecedor
+        FROM Lote L
+        JOIN Medicamento M ON L.medicamento_id_pk = M.medicamento_id_pk
+        JOIN Fornecedor F ON L.id_fornecedor_pk = F.id_fornecedor_pk
+    """)
+
     lote = cursor.fetchall()
     cursor.close()
     conexao.close()
+
     return render_template("lote.html", lote=lote)
 
 # ====== ROTA DE CADASTROS DAS TABELAS ======
@@ -94,24 +109,45 @@ def cadastrar_Fornecedor():
 ## ==== ROTA DE CADASTRO DE LOTE:
 @app.route("/cadastroLote", methods=["GET"])
 def cadastro_Lote():
-    return render_template("cadastroLote.html")
+    conexao = conectar_banco()
+    cursor = conexao.cursor(dictionary=True)
+
+    cursor.execute("SELECT medicamento_id_pk, nome_medicamento FROM Medicamento")
+    medicamentos = cursor.fetchall()
+
+    cursor.execute("SELECT id_fornecedor_pk, nome_fornecedor FROM Fornecedor")
+    fornecedores = cursor.fetchall()
+
+    cursor.close()
+    conexao.close()
+
+    return render_template("cadastroLote.html", medicamentos=medicamentos, fornecedores=fornecedores)
 
 @app.route("/cadastrarLote", methods=["POST"])
 def cadastrar_Lote():
     data_entrada = request.form["data_entrada_lote"]
-    quantidade = int(request.form["quantidade"])
+    quantidade = request.form["quantidade"]
     data_validade = request.form["data_validade"]
+    medicamento_id_pk = request.form["medicamento_id_pk"]
+    id_fornecedor_pk = request.form["id_fornecedor_pk"]
 
     conexao = conectar_banco()
     cursor = conexao.cursor()
     cursor.execute("""
-        INSERT INTO Lote (data_entrada_lote, quantidade, data_validade)
-        VALUES (%s, %s, %s)
-    """, (data_entrada, quantidade, data_validade))
+        INSERT INTO Lote (data_entrada_lote, quantidade, medicamento_id_pk, id_fornecedor_pk, data_validade)
+        VALUES (%s, %s, %s, %s, %s)
+    """, (data_entrada, quantidade, medicamento_id_pk, id_fornecedor_pk, data_validade))
+    
+    # cursor.execute("""
+    #     UPDATE Medicamento
+    #     SET estoque_atual = estoque_atual + %s
+    #     WHERE medicamento_id_pk = %s
+    # """, (quantidade, medicamento_id_pk))
+    
     conexao.commit()
     cursor.close()
     conexao.close()
-
+    
     return redirect(url_for("listar_lote"))
 
 ## ==== ROTA DE RELATÓRIOS:
@@ -136,6 +172,53 @@ def relatorios():
     conexao.close()
 
     return render_template("relatorio.html", total=total_medicamentos, media=media_preco, criticos=criticos)
+
+
+def obter_lotes():
+    conn = conectar_banco()
+    cursor = conn.cursor(dictionary=True)  # ← ESSA LINHA É FUNDAMENTAL
+    cursor.execute("""
+        SELECT 
+            l.id_lote_pk, 
+            l.data_validade, 
+            l.quantidade, 
+            m.nome_medicamento 
+        FROM Lote l
+        JOIN Medicamento m ON l.medicamento_id_pk = m.medicamento_id_pk
+    """)
+    lotes = cursor.fetchall()
+    conn.close()
+    return lotes
+
+@app.route('/relatorioValidade')
+def relatorio_validade():
+    data_atual = datetime.now().date()  # garantir que é do tipo date
+    lotes_raw = obter_lotes()
+
+    lote = []
+    for l in lotes_raw:
+        data_validade = l['data_validade']  # já vem como datetime.date no MySQL
+        dias_restantes = (data_validade - data_atual).days
+
+        if dias_restantes < 0:
+            status_cor = 'table-danger'      # vencido
+        elif dias_restantes <= 30:
+            status_cor = 'table-warning'     # perto de vencer
+        else:
+            status_cor = 'table-success'     # válido
+
+        lote.append({
+            'id': l['id_lote_pk'],
+            'nome_medicamento': l['nome_medicamento'],
+            'data_validade': data_validade.strftime('%Y-%m-%d'),
+            'quantidade': l['quantidade'],
+            'status_cor': status_cor,
+            'dias_restantes': dias_restantes
+        })
+
+    return render_template('relatorioValidade.html', lote=lote, data_atual=data_atual)
+
+
 
 ## ====== ROTAS PARA EDITAR E EXCLUIR ========
 
